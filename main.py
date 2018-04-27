@@ -12,8 +12,9 @@ color = [ 0, 0, 0 ]
 edges = []
 polygons = []
 transform = new_matrix()
-
+parse_file( 'scanline_test', edges, polygons, transform, screen, zbuffer, color )
+'''
 if len(argv) != 2:
     parse_file( 'script', edges, polygons, transform, screen, zbuffer, color )
 else:
-    parse_file( argv[1], edges, polygons, transform, screen, zbuffer, color )
+    parse_file( argv[1], edges, polygons, transform, screen, zbuffer, color )'''

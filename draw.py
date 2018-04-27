@@ -2,6 +2,7 @@ from display import *
 from matrix import *
 from math import *
 from gmath import *
+import random
 
 def scanline_convert(polygons, i, screen, zbuffer ):
     pass
@@ -22,6 +23,71 @@ def draw_polygons( matrix, screen, zbuffer, color ):
         normal = calculate_normal(matrix, point)[:]
 
         if normal[2] > 0:
+            c = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
+            if matrix[point][1] > matrix[point+1][1] and matrix[point][1]>matrix[point+2][1]:
+                top = matrix[point]
+                if matrix[point+1][1]>matrix[point+2][1]:
+                    middle = matrix[point+1]
+                    bottom = matrix[point+2]
+                else:
+                    bottom = matrix[point+1]
+                    middle = matrix[point+2]
+            elif matrix[point+1][1] > matrix[point][1] and matrix[point][1]>matrix[point+2][1]:
+                top = matrix[point+1]
+                if matrix[point][1]>matrix[point+2][1]:
+                    middle = matrix[point]
+                    bottom = matrix[point+2]
+                else:
+                    bottom = matrix[point+2]
+                    middle = matrix[point]
+            else:
+                top = matrix[point+2]
+                if matrix[point+1][1]>matrix[point][1]:
+                    middle = matrix[point+1]
+                    bottom = matrix[point]
+                else:
+                    bottom = matrix[point]
+                    middle = matrix[point+1]
+
+
+            y = top[1]
+            x1 = top[0]
+            x2 = top[0]
+            z1 = top[2]
+            z2 = top[2]
+            dx1 = (middle[0]-top[0])/(middle[1]-top[1])
+            dz1 = (middle[2]-top[2])/(middle[1] -top[1])
+            dx2 = (bottom[0]-top[0])/(bottom[1]-top[1])
+            dz2 = (bottom[2]-top[2])/(bottom[1]-top[1])
+            while y > bottom[1] and y > middle[1]:
+                y -= 1
+                x1 -= dx1
+                z1 -= dz1
+                x2 -= dx2
+                z2 -= dz2
+
+                draw_line( int(x1), int(y), int(z1), int(x2), int(y), int(z2), screen, zbuffer, c)
+
+            y = bottom[1]
+            x1 = bottom[0]
+            x2 = bottom[0]
+            z1 = bottom[2]
+            z2 = bottom[2]
+            dx1 = (middle[0]-bottom[0])/(middle[1]-bottom[1])
+            dz1 = (middle[2]-bottom[2])/(middle[1] -bottom[1])
+            dx2 = (top[0]-bottom[0])/(top[1]-bottom[1])
+            dz2 = (top[2]-bottom[2])/(top[1]-bottom[1])
+            while y < top[1] and y < middle[1]:
+                y += 1
+                x1 += dx1
+                z1 += dz1
+                x2 += dx2
+                z2 += dz2
+
+                draw_line( int(x1), int(y), int(z1), int(x2), int(y), int(z2), screen, zbuffer, c)
+
+        point+= 3
+'''
             draw_line( int(matrix[point][0]),
                        int(matrix[point][1]),
                        matrix[point][2],
@@ -42,8 +108,8 @@ def draw_polygons( matrix, screen, zbuffer, color ):
                        int(matrix[point+2][0]),
                        int(matrix[point+2][1]),
                        matrix[point+2][2],
-                       screen, zbuffer, color)
-        point+= 3
+                       screen, zbuffer, color)'''
+        
 
 
 def add_box( polygons, x, y, z, width, height, depth ):

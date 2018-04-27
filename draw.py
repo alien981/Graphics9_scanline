@@ -32,22 +32,22 @@ def draw_polygons( matrix, screen, zbuffer, color ):
                 else:
                     bottom = matrix[point+1]
                     middle = matrix[point+2]
-            elif matrix[point+1][1] > matrix[point][1] and matrix[point][1]>matrix[point+2][1]:
+            elif matrix[point+1][1] > matrix[point][1] and matrix[point+1][1]>matrix[point+2][1]:
                 top = matrix[point+1]
                 if matrix[point][1]>matrix[point+2][1]:
                     middle = matrix[point]
                     bottom = matrix[point+2]
                 else:
-                    bottom = matrix[point+2]
-                    middle = matrix[point]
+                    bottom = matrix[point]
+                    middle = matrix[point+2]
             else:
                 top = matrix[point+2]
                 if matrix[point+1][1]>matrix[point][1]:
                     middle = matrix[point+1]
                     bottom = matrix[point]
                 else:
-                    bottom = matrix[point]
-                    middle = matrix[point+1]
+                    bottom = matrix[point+1]
+                    middle = matrix[point]
 
 
             y = top[1]
@@ -59,7 +59,7 @@ def draw_polygons( matrix, screen, zbuffer, color ):
             dz1 = (middle[2]-top[2])/(middle[1] -top[1])
             dx2 = (bottom[0]-top[0])/(bottom[1]-top[1])
             dz2 = (bottom[2]-top[2])/(bottom[1]-top[1])
-            while y > bottom[1] and y > middle[1]:
+            while y > middle[1]:
                 y -= 1
                 x1 -= dx1
                 z1 -= dz1
@@ -77,7 +77,7 @@ def draw_polygons( matrix, screen, zbuffer, color ):
             dz1 = (middle[2]-bottom[2])/(middle[1] -bottom[1])
             dx2 = (top[0]-bottom[0])/(top[1]-bottom[1])
             dz2 = (top[2]-bottom[2])/(top[1]-bottom[1])
-            while y < top[1] and y < middle[1]:
+            while y < middle[1]:
                 y += 1
                 x1 += dx1
                 z1 += dz1
@@ -87,28 +87,6 @@ def draw_polygons( matrix, screen, zbuffer, color ):
                 draw_line( int(x1), int(y), int(z1), int(x2), int(y), int(z2), screen, zbuffer, c)
 
         point+= 3
-'''
-            draw_line( int(matrix[point][0]),
-                       int(matrix[point][1]),
-                       matrix[point][2],
-                       int(matrix[point+1][0]),
-                       int(matrix[point+1][1]),
-                       matrix[point+1][2],
-                       screen, zbuffer, color)
-            draw_line( int(matrix[point+2][0]),
-                       int(matrix[point+2][1]),
-                       matrix[point+2][2],
-                       int(matrix[point+1][0]),
-                       int(matrix[point+1][1]),
-                       matrix[point+1][2],
-                       screen, zbuffer, color)
-            draw_line( int(matrix[point][0]),
-                       int(matrix[point][1]),
-                       matrix[point][2],
-                       int(matrix[point+2][0]),
-                       int(matrix[point+2][1]),
-                       matrix[point+2][2],
-                       screen, zbuffer, color)'''
         
 
 
